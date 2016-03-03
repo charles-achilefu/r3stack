@@ -10,10 +10,9 @@
   "scripts": {
     "postinstall":  "rimraf build && concurrently \"npm run build:db\" \"npm run build:client\" \"npm run build:server\"",
     "reset":        "npm run postinstall",
-    "prod":         "NODE_ENV=production node ./src/server/server.babel.js",
-    "dev":          "NODE_ENV=development node ./src/server/server.babel.js",
-    "start":        "npm run prod",
-    "start:dev":    "npm run dev",
+    "prod":         "NODE_ENV=\"production\" npm start",
+    "dev":          "NODE_ENV=\"development\" npm start",
+    "start":        "node ./src/server/server.babel.js",
     "build":        "rimraf build && concurrently \"npm run build:client\" \"npm run build:server\"",
     "build:client": "NODE_ENV=production webpack -p --config ./webpack/prod.babel.js",
     "build:server": "NODE_ENV=production webpack -p --config ./webpack/server.babel.js",

@@ -1,5 +1,5 @@
-# [R3stack](http://r3stack.com) - Get that shit done!
-<img src="https://raw.githubusercontent.com/r3stack/r3stack/master/r3stack.png" width="800"> 
+# <img src="https://raw.githubusercontent.com/r3stack/r3stack/master/r3stack.png" width="44"> [R3stack](http://r3stack.com) - Get that shit done!
+
 ##### Whether you want to learn or quickly start your project - R3stack allows you to dive right in! 
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 
@@ -59,8 +59,8 @@
 
 For example:
 
-- 'azk shell r3stack -- npm run start:dev'
-- 'azk shell r3stack -- npm run start'
+- 'azk shell r3stack -- npm run prod'
+- 'azk shell r3stack -- npm run dev'
 - 'azk shell r3stack -- npm run build'
 
 To completely rebuild the r3stack system while keeping the database:
@@ -68,17 +68,17 @@ To completely rebuild the r3stack system while keeping the database:
 - 'azk restart r3stack --rebuild'
 
 #### Client-side development
-- `azk shell r3stack -- npm run start:dev`
+- `azk shell r3stack -- npm run dev`
 - http://r3stack.dev.azk.io
 
 Rebuilds the client code in-memory & uses hot module reload so you can develop more efficiently!
 
 #### Server-side development
-- `azk shell r3stack -- npm run start`
+- `azk shell r3stack -- npm run prod`
 - http://r3stack.dev.azk.io
 - If you edit any client or universal files, run `azk shell r3stack -- npm run build` to rebuild & serve the bundle
 
-This mode is great because you can make changes to the server ***without having to recompile the client code***
+This mode is great because you can make changes to the server ***without having to recompile the client code.***
 That means you only wait for the server to restart! GAME CHANGER!
 
 ##Database development
@@ -179,8 +179,6 @@ When the note is dropped to its new location, the change is persisted.
 - Aaron Swartz
 
 ##### Huge Thanks go to all the fantastic people that made all of this possible, especially:
-
-
 
 - [__Matt Krick__](https://github.com/mattkrick) for making Meatier and putting up with my never ending stream of questions and crazy ideas, 
 - [__Jonathan Gros-Dubois__](https://github.com/jondubois) for making SocketCluster and being the voice of reason to my own madness, 

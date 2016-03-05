@@ -1,6 +1,6 @@
 # <img src="https://raw.githubusercontent.com/r3stack/r3stack/master/r3stack.png" width="44"> [R3stack](http://r3stack.com) - Get that shit done!
 
-##### Whether you want to learn or quickly start your project - R3stack allows you to dive right in! 
+##### Whether you want to learn or quickly start your project - R3stack allows you to dive right in!
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 
 | Problem           | Solution                                                                 | Result                                                              |
@@ -33,64 +33,101 @@
 - [redux-devtools Chrome Addon](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
 
 ## R3stack utilizes [azk](http://www.azk.io/) orchestrated development environment!
-###### Should you already have it, feel free to skip the first step. 
+
+###### Should you already have it, feel free to skip the first step.
 
 ##### Step 1 - azk installation
+
 ###### Mac OSX:
-- curl -sSL http://azk.io/install.sh | bash
+
+```sh
+curl -sSL http://azk.io/install.sh | bash
+```
 
 ###### Linux:
-- wget -nv http://azk.io/install.sh -O- -t 2 -T 10 | bash
+
+```sh
+wget -nv http://azk.io/install.sh -O- -t 2 -T 10 | bash
+```
 
 ##### Step 2 - new r3stack installation
-- git clone git@github.com:r3stack/r3stack.git
-- cd r3stack
-- azk start
 
-* Please note that this process can take a while * 
+```sh
+git clone git@github.com:r3stack/r3stack.git
+cd r3stack
+
+# build the database for the first time
+azk start rethinkdb
+azk shell r3stack -- npm run build:db
+
+# start r3stack in dev mode
+azk start -Rvv
+```
+
+* Please note that this process can take a while *
   If you need to know whats going on instead of patiently waiting for provisioning to finish silently, use the command below.
   This is also very useful for troubleshooting when something doesn't work:
-  
-- azk start -vv && azk logs --follow
+
+```sh
+azk start -vv && azk logs --follow
+```
 
 ## Execution of commands
 
-- 'azk shell r3stack -- //commands//'
+```sh
+azk shell r3stack -- //commands//
+```
 
 For example:
 
-- 'azk shell r3stack -- npm run prod'
-- 'azk shell r3stack -- npm run dev'
-- 'azk shell r3stack -- npm run build'
+```sh
+azk shell r3stack -- npm run prod
+azk shell r3stack -- npm run dev
+azk shell r3stack -- npm run build
+```
 
 To completely rebuild the r3stack system while keeping the database:
 
-- 'azk restart r3stack --rebuild'
+```sh
+azk restart r3stack --rebuild
+```
 
 #### Client-side development
-- `azk shell r3stack -- npm run dev`
-- http://r3stack.dev.azk.io
+
+```sh
+azk shell r3stack -- npm run dev
+```
+
+- Open: http://r3stack.dev.azk.io
 
 Rebuilds the client code in-memory & uses hot module reload so you can develop more efficiently!
 
 #### Server-side development
-- `azk shell r3stack -- npm run prod`
-- http://r3stack.dev.azk.io
+
+```sh
+azk shell r3stack -- npm run prod
+```
+
+- Open: http://r3stack.dev.azk.io
 - If you edit any client or universal files, run `azk shell r3stack -- npm run build` to rebuild & serve the bundle
 
 This mode is great because you can make changes to the server ***without having to recompile the client code.***
 That means you only wait for the server to restart! GAME CHANGER!
 
-##Database development
+## Database development
+
 - You can use Azk to only start the database by `azk start rethinkdb`
 - http://rethinkdb.dev.azk.io for RethinkDB
 - All tables are managed in `./src/server/setupDB.js`. Just add your tables & indices to that file and rerun
 - A standard ORM would check for tables & ensure indices at least once per build, doing it this way keeps your build times down
 - http://r3stack.dev.azk.io/graphql for testing out new queries/mutations
 
-##Deployment
-####Currently we recommend deployment on [DigitalOcean](www.digitalocean.com/?refcode=ce49c40dc881)
-######By using the above referral link you are helping us run [r3stack](http://r3stack.com/)
+## Deployment
+
+#### Currently we recommend deployment on [DigitalOcean](www.digitalocean.com/?refcode=ce49c40dc881)
+
+###### By using the above referral link you are helping us run [r3stack](http://r3stack.com/)
+
 Make sure that you create first and have .env file in the root folder of r3stack. (It should NEVER be uploaded to github btw)
 The file should looks like this:
 ```
@@ -104,67 +141,77 @@ Once these conditions are meet you can execute the deployment command: `azk shel
 After the first deployment is completed, all consecutive deployments can be done either via 'git push': `git push azk_deploy master`
 or continuing via 'azk shell deploy': `azk shell deploy` which is more robust (it performs droplet configuration verification) albeit it takes a little bit longer.
 
-##Webpack configs
-####Development config
+## Webpack configs
+
+#### Development config
+
 When the page is opened, a basic HTML layout is sent to the client along with a stringified redux store and a request for the common chunk of the JS.
 The client then injects the redux store & router to create the page.
-The redux devtools & logger are also loaded so you track your every state-changing action. 
-The routes are loaded async, check your networks tab in chrome devtools and you'll see funny js files load now & again. 
+The redux devtools & logger are also loaded so you track your every state-changing action.
+The routes are loaded async, check your networks tab in chrome devtools and you'll see funny js files load now & again.
 
-####Production config
+#### Production config
+
 Builds the website & saves it to the `build` folder.
 Maps the styles to the components, but uses the prerendered CSS from the server config (below)
 Separates the `vendor` packages and the `app` packages for a super quick, cachable second visit.
 Creates a webpack manifest to enable longterm caching (eg can push new vendor.js without pushing a new app.js)
 Optimizes the number of chunks, sometimes it's better to have the modules of 2 routes in the same chunk if they're small
 
-####Server config
+#### Server config
+
 A webpack config builds the entire contents of the routes on the server side.
 This is required because node doesn't know how to require `.css`.
 When a request is sent to the server, react-router matches the url to the correct route & sends it to the client.
 Any browser dependency is ignored & uglified away.
 To test this, disable javascript in the browser. You'll see the site & css loads without a FOUC.
 
-##How it works
-When the page loads, it checks your localStorage for `R3stack.token` & will automatically log you in if the token is legit. 
+## How it works
+
+When the page loads, it checks your localStorage for `R3stack.token` & will automatically log you in if the token is legit.
 If not, just head to the 'Sign up' page. The 'Sign up' page uses redux-form, which handles all errors, schema validation,
 and submissions. Your credentials are set as variables in a GraphQL mutation & sent to the GraphQL endpoint and a user document (similar to Meteor's) and authToken is returned to your state.
 
 The 'Kanban' app requires a login & websocket, so when you enter, your token will be used to authenticate a websocket.
 That token is stored on the server so it is only sent during the handshake (very similar to DDP). Socket state is managed
-by `redux-socket-cluster`, just clicking `socket` in the devtools let's you explore its current state. 
+by `redux-socket-cluster`, just clicking `socket` in the devtools let's you explore its current state.
 
 When you enter the route, reducers are lazily loaded to the redux store and the `redux-optimistic-ui` reducer enhancer is applied to the store to enable an optimistic UI. To work, it requires some middleware that scans each redux action for an `isOptimistic` prop and reverts actions that fail server side.
 
 When the kanban component loads, it subscribes to `lanes` & `notes`, which starts your personalized changefeed.
 When you do something that changes the persisted state (eg add a kanban lane) that action is executed
-optimistically on the client & emitted to the server where it is validated & sent to the database. 
+optimistically on the client & emitted to the server where it is validated & sent to the database.
 The database then emits a changefeed doc to all subscribed viewers.
 Since the DB doesn't know which client made the mutation, it always sends a changefeed to the server.
 The server is smart enough to ignore sending that document back to the originator, but it does send an acknowledgement.
 
-The kanban lane titles & notes are really basic, you click them & they turn into input fields. 
+The kanban lane titles & notes are really basic, you click them & they turn into input fields.
 The notes can be dragged from lane to lane. This is to showcase a local state change that doesn't affect the persisted state.
-When the note is dropped to its new location, the change is persisted. 
+When the note is dropped to its new location, the change is persisted.
 
-##Tutorials
+## Tutorials
+
  - [A production-ready realtime SaaS with webpack](https://medium.com/@matt.krick/a-production-ready-realtime-saas-with-webpack-7b11ba2fa5b0#.bifdf5iz8)
  - [GraphQL Field Guide to Auth](https://medium.com/@matt.krick/graphql-field-guide-to-auth-ead84f657ab#.f3tg2sf3d)
 
-##Similar Projects
+## Similar Projects
+
  - https://github.com/erikras/react-redux-universal-hot-example (Really nice, but no auth or DB)
  - https://github.com/kriasoft/react-starter-kit (nice, I borrowed their layout, but no sockets, no DB)
  - https://github.com/GordyD/3ree (uses RethinkDB, but no optimistic UI)
  - http://survivejs.com/ (A nice alt-flux & react tutorial for a kanban)
 
-##In Action 
+## In Action
+
 [R3stack](http://r3stack.com)
 
-##Contributing
+## Contributing
+
  - Pull requests welcomed!
  - Use the gitter for any questions
 
-##Changelog
+## Changelog
+
 - 0.11
  - Updated all dependencies
 
@@ -180,10 +227,10 @@ When the note is dropped to its new location, the change is persisted.
 
 ##### Huge Thanks go to all the fantastic people that made all of this possible, especially:
 
-- [__Matt Krick__](https://github.com/mattkrick) for making Meatier and putting up with my never ending stream of questions and crazy ideas, 
-- [__Jonathan Gros-Dubois__](https://github.com/jondubois) for making SocketCluster and being the voice of reason to my own madness, 
+- [__Matt Krick__](https://github.com/mattkrick) for making Meatier and putting up with my never ending stream of questions and crazy ideas,
+- [__Jonathan Gros-Dubois__](https://github.com/jondubois) for making SocketCluster and being the voice of reason to my own madness,
 - [__Julio Makdisse Saito__](https://github.com/saitodisse), [__Felipe Arenales Santos__](https://github.com/fearenales), [__Gullit Miranda__](https://github.com/gullitmiranda) and the rest of the amazing [__Azk.io team__](https://github.com/azukiapp) for all their hard work and support!
- 
+
 - Plus all the people involved in [__open source software__](https://github.com/) who tirelessly and continually contribute in making world a better place. One commit at a time. ;)
 
 >“Individually, we are one drop. Together, we are an ocean.”

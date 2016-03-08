@@ -1,3 +1,3 @@
 
-export default {authTokenName: 'Meatier.authToken'};
+export default {authTokenName: 'R3stack.authToken'};
 

@@ -15,7 +15,10 @@ import httpGraphQLHandler from './graphql/httpGraphQLHandler';
 const PROD = process.env.NODE_ENV === 'production';
 
 export function run(worker) {
-  console.log('   >> Worker PID:', process.pid);
+
+  let colors = require('colors');
+  console.log('\n       >>'.yellow + ' Worker PID:' +' %s\n'.yellow, process.pid);
+
   const app = express();
   const scServer = worker.scServer;
   const httpServer = worker.httpServer;

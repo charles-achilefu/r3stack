@@ -1,4 +1,4 @@
-
 module.exports.run = function () {
-  console.log('   >> Broker PID:', process.pid);
+  let colors = require('colors');
+  console.log('\n       >>'.yellow + ' Broker PID:' +' %s'.yellow, process.pid);
 };

@@ -11,7 +11,7 @@ export default class Html extends Component {
     title: PropTypes.string.isRequired,
     assets: PropTypes.object,
     renderProps: PropTypes.object
-  }
+  };
 
   render() {
     const PROD = process.env.NODE_ENV === 'production';

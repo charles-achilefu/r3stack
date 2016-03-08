@@ -55,12 +55,6 @@ wget -nv http://azk.io/install.sh -O- -t 2 -T 10 | bash
 ```sh
 git clone git@github.com:r3stack/r3stack.git
 cd r3stack
-
-# build the database for the first time
-azk start rethinkdb
-azk shell r3stack -- npm run build:db
-
-# start r3stack in dev mode
 azk start -Rvv
 ```
 
@@ -81,8 +75,8 @@ azk shell r3stack -- //commands//
 For example:
 
 ```sh
+azk shell r3stack -- npm start
 azk shell r3stack -- npm run prod
-azk shell r3stack -- npm run dev
 azk shell r3stack -- npm run build
 ```
 
@@ -95,7 +89,7 @@ azk restart r3stack --rebuild
 #### Client-side development
 
 ```sh
-azk shell r3stack -- npm run dev
+azk shell r3stack -- npm start
 ```
 
 - Open: http://r3stack.dev.azk.io
@@ -109,7 +103,7 @@ azk shell r3stack -- npm run prod
 ```
 
 - Open: http://r3stack.dev.azk.io
-- If you edit any client or universal files, run `azk shell r3stack -- npm run build` to rebuild & serve the bundle
+- If you edit any client or universal files, run `azk shell r3stack -- npm run bs` to rebuild & serve the bundle
 
 This mode is great because you can make changes to the server ***without having to recompile the client code.***
 That means you only wait for the server to restart! GAME CHANGER!
@@ -211,6 +205,10 @@ When the note is dropped to its new location, the change is persisted.
  - Use the gitter for any questions
 
 ## Changelog
+- 0.12
+ - Added Meatier's changes
+ - Corrected npm script issuse
+ - Adjusted Client files
 
 - 0.11
  - Updated all dependencies

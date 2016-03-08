@@ -1,20 +1,14 @@
 import fetch from 'isomorphic-fetch';
 import socketOptions from './socketOptions';
+import {getGraphQLHost, getGraphQLProtocol} from './graphQLConfig';
 
 export function parseJSON(response) {
   return response.json()
 }
 
 export function hostUrl() {
-  let host, protocol;
-  //testing doesn't know about webpack & throws an error if window is inside a conditional
-  //if (__CLIENT__) {
-  //  host = window.location.host;
-  //  protocol = window.location.protocol;
-  //} else {
-  host = 'r3stack.dev.azk.io';
-  protocol = 'http:';
-  //}
+  let host = getGraphQLHost(),
+    protocol = getGraphQLProtocol();
   return `${protocol}//${host}`;
 }
 

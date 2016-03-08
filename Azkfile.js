@@ -6,7 +6,6 @@ systems({
     depends: ["rethinkdb"],
     image: {"docker": "azukiapp/node"},
     provision: [
-      "npm config set loglevel error --global",
       "npm install"
     ],
     workdir: "/azk/#{manifest.dir}",

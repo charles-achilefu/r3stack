@@ -6,11 +6,14 @@ systems({
     depends: ["rethinkdb"],
     image: {"docker": "azukiapp/node"},
     provision: [
-      "npm install"
+      "npm install",
+      "npm run build:db",
+      "npm run build:client",
+      "npm run build:server"
     ],
     workdir: "/azk/#{manifest.dir}",
     shell: "/bin/bash",
-    command: ["npm", "run", "quickstart"],
+    command: ["npm", "run", "prod"],
     wait: 200,
     mounts: {
       '/azk/#{manifest.dir}': sync("."),
@@ -52,7 +55,7 @@ systems({
      },
     shell: '/bin/bash',
     scalable: false,
-    command: "rethinkdb --bind all --direct-io --cache-size 2000 --server-name rethinkdb --directory ./rethinkdb --canonical-address rethinkdb.dev.azk.io",
+    command: "rethinkdb --bind all --direct-io --cache-size 512 --server-name rethinkdb --directory ./rethinkdb --canonical-address rethinkdb.dev.azk.io",
     wait: 75,
     mounts: {
       '/rethinkdb': persistent('rethinkdb-#{manifest.dir}'),

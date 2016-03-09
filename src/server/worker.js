@@ -16,8 +16,7 @@ const PROD = process.env.NODE_ENV === 'production';
 
 export function run(worker) {
 
-  let colors = require('colors');
-  console.log('\n       >>'.yellow + ' Worker PID:' +' %s\n'.yellow, process.pid);
+  console.log('\n       >> Worker PID:' +' %s\n', process.pid);
 
   const app = express();
   const scServer = worker.scServer;

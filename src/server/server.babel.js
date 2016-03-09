@@ -7,8 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
   }
 }
 
-const colors = require('colors');
-console.log(('\n   Server is running in %s mode.\n'.yellow), process.env.NODE_ENV);
+console.log(('\n   Server is running in %s mode.\n'), process.env.NODE_ENV);
 
 require('babel-register');
 require('babel-polyfill');

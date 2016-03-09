@@ -6,6 +6,7 @@ systems({
     depends: ["rethinkdb"],
     image: {"docker": "azukiapp/node"},
     provision: [
+      "rm -rf build node_modules/*",
       "npm install",
       "npm run build:db",
       "npm run build:client",

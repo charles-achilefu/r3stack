@@ -15,9 +15,9 @@ export const options = {
   port: 3000,
   appName: 'R3stack',
   allowClientPublish: false,
-  brokerController: path.join(__dirname, '/broker.js'),
   initController: path.join(__dirname, '/init.js'),
   workerController: path.join(__dirname, '/worker.js'),
+  brokerController: path.join(__dirname, '/broker.js'),
   socketChannelLimit: 1000,
   rebootWorkerOnCrash: true
 };
